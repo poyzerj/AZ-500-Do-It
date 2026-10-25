@@ -32,10 +32,12 @@ foreach ($VmName in $VmNames) {
         Write-Host "$VmName not found — skipping VM/disk removal" -ForegroundColor Yellow
     }
 
-    $nic = Get-AzNetworkInterface -ResourceGroupName $Rg -Name "nic-$VmName" -ErrorAction SilentlyContinue
+    $nic = Get-AzNetworkInterface -ResourceGroupName $Rg -Name "$VmName-nic" -ErrorAction SilentlyContinue
     if ($nic) {
         Write-Host "Removing NIC: $VmName-nic"
-        Remove-AzNetworkInterface -ResourceGroupName $Rg -Name "nic-$VmName" -Force
+        Remove-AzNetworkInterface -ResourceGroupName $Rg -Name "$VmName-nic" -Force
+    } else {
+        Write-Host "$VmName-nic not found — skipping NIC removal" -ForegroundColor Yellow
     }
 }
 
